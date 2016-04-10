@@ -1,10 +1,10 @@
 
 %Questao 1
-% mudaTamanho('lena_grayscale.png');
-% 
-% mudaTamanho('cameraman.jpg');
-% 
-% mudaTamanho('crowd.jpg');
+mudaTamanho('lena_grayscale.png');
+
+mudaTamanho('cameraman.jpg');
+
+mudaTamanho('crowd.jpg');
 
 %Questao 2  8, 7,6,5,4,3,2,
 %Lena
@@ -31,12 +31,12 @@ end
 
 
 %Crowd
-I = imread('crowd.jpg');
+I = rgb2gray(imread('crowd.jpg'));
 
 for n = 1:7
     
     [X, map] = reduzBits(n, I);
-    output = strcat('crowd', int2str(n), 'bits.png');
+    output = strcat('crowd', int2str(n), 'bits.bmp');
     imwrite(X, map, output);
 end
 
