@@ -1,7 +1,44 @@
 
+%Questao 1
+% mudaTamanho('lena_grayscale.png');
+% 
+% mudaTamanho('cameraman.jpg');
+% 
+% mudaTamanho('crowd.jpg');
 
-mudaTamanho('lena_grayscale.png');
+%Questao 2  8, 7,6,5,4,3,2,
+%Lena
+I = imread('lena_grayscale.png');
 
-mudaTamanho('cameraman.jpg');
+for n = 1:7
+    
+    [X, map] = reduzBits(n, I);
+    output = strcat('lena_grayscale', int2str(n), 'bits.png');
+    imwrite(X, map, output);
+end
 
-mudaTamanho('crowd.jpg');
+
+%Cameraman
+I = imread('cameraman.jpg');
+
+for n = 1:7
+    
+    [X, map] = reduzBits(n, I);
+    output = strcat('cameraman', int2str(n), 'bits.png');
+    imwrite(X, map, output);
+end
+
+
+
+%Crowd
+I = imread('crowd.jpg');
+
+for n = 1:7
+    
+    [X, map] = reduzBits(n, I);
+    output = strcat('crowd', int2str(n), 'bits.png');
+    imwrite(X, map, output);
+end
+
+
+
