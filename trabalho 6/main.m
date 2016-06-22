@@ -1,5 +1,4 @@
 %Trabalho 6
-
 RGB = imread('carcinoma_in_situ/carcinoma (1).BMP');
 I = rgb2gray(RGB);
 figure;
@@ -18,7 +17,7 @@ imshow(~BW)
 
 %K-means segmentation
 [nrow, ncol] = size(I);
-aux = reshape(I, nrow*ncol,1);
+aux = double(reshape(I, nrow*ncol,1));
 idx = kmeans(aux, 2);
 level = ((idx(1)+idx(2))/2)/255;
 BW = im2bw(I, level);

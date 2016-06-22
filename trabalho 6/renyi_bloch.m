@@ -1,0 +1,34 @@
+%Renyi Entropy
+clear all;
+close all;
+
+RGB = im2double(imread('carcinoma_in_situ/carcinoma (7).BMP'));
+
+%Converte em tons de cinzas por média artimética
+I = gray_bloch(RGB);
+imshow(I)
+
+% Segmenta a imagem
+level = renyi_threshold(I);
+BW = im2bw(I,level);
+BW = ~BW;
+figure;
+imshow(BW)
+
+
+MASK = imread('carcinoma_in_situ_mascaras/carcinoma (7)_mascara_juncao.bmp');
+figure;
+imshow(MASK);
+
+POS = nnz(MASK);
+NEG = numel(MASK)- POS;
+
+TP = nnz(MASK&BW);
+FP = nnz(MASK|BW) - POS;
+TN = NEG - FP;
+FN = nnz(MASK) - TP;
+
+precision = TP/(TP+FP);
+recall = TP/(TP+FN);
+
+dice = 2*nnz(BW&MASK)/(nnz(BW) + nnz(MASK));
