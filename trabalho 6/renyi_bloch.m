@@ -1,34 +1,61 @@
 %Renyi Entropy
+clc;
 clear all;
 close all;
+tic;
 
-RGB = im2double(imread('carcinoma_in_situ/carcinoma (7).BMP'));
+samples = 70;
+folder = 'carcinoma_in_situ/carcinoma (';
+mask_folder = 'carcinoma_in_situ_mascaras/carcinoma (';
 
-%Converte em tons de cinzas por média artimética
-I = gray_bloch(RGB);
-imshow(I)
+precision = zeros(samples,1);
+recall = zeros(samples,1);
+dice = zeros(samples,1);
 
-% Segmenta a imagem
-level = renyi_threshold(I);
-BW = im2bw(I,level);
-BW = ~BW;
-figure;
-imshow(BW)
+for i=1:samples
+    
+    file = strcat(folder, int2str(i), ').BMP');
+    RGB = im2double(imread(file));
+    
+    %Converte em tons de cinzas por média artimética
+    I = gray_bloch(RGB);
+%     imshow(I)
+    
+    % Segmenta a imagem
+    level = renyi_threshold(I);
+    BW = im2bw(I,level);
+    BW = ~BW;
+%     figure;
+%     imshow(BW)
+    
+    
+    mask_file = strcat(mask_folder, int2str(i), ')_mascara_nucleo.BMP');
+    MASK = imread(mask_file);
+    
+%     figure;
+%     imshow(MASK);
+    
+    POS = nnz(MASK);
+    NEG = numel(MASK)- POS;
+    
+    TP = nnz(MASK&BW);
+    FP = nnz(MASK|BW) - POS;
+    TN = NEG - FP;
+    FN = nnz(MASK) - TP;
+    
+    precision(i) = TP/(TP+FP);
+    recall(i) = TP/(TP+FN);
+    dice(i) = 2*nnz(BW&MASK)/(nnz(BW) + nnz(MASK));
+
+end
 
 
-MASK = imread('carcinoma_in_situ_mascaras/carcinoma (7)_mascara_juncao.bmp');
-figure;
-imshow(MASK);
+dice_mean = mean(dice)
+precision_mean = mean(precision)
+recall_mean = mean(recall)
 
-POS = nnz(MASK);
-NEG = numel(MASK)- POS;
+dice_std = std(dice)
+precision_std = std(precision)
+recall_std = std(recall)
 
-TP = nnz(MASK&BW);
-FP = nnz(MASK|BW) - POS;
-TN = NEG - FP;
-FN = nnz(MASK) - TP;
-
-precision = TP/(TP+FP);
-recall = TP/(TP+FN);
-
-dice = 2*nnz(BW&MASK)/(nnz(BW) + nnz(MASK));
+toc;
