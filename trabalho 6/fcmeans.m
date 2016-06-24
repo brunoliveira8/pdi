@@ -5,8 +5,9 @@ close all;
 tic;
 
 samples = 70;
-folder = 'carcinoma_in_situ/carcinoma (';
-mask_folder = 'carcinoma_in_situ_mascaras/carcinoma (';
+
+folder = 'normal_intermediate/normal_intermediate (';
+mask_folder = 'normal_intermediate_mascaras/normal_intermediate (';
 
 precision = zeros(samples,1);
 recall = zeros(samples,1);

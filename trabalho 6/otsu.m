@@ -21,6 +21,7 @@ for i=1:samples
 
     % Converte em tons de cinzas por média artimética
     I = gray_mean(RGB);
+%     figure;
 %     imshow(I)
 
     % Segmenta a imagem
@@ -31,7 +32,7 @@ for i=1:samples
 %     imshow(BW)
 
 
-    mask_file = strcat(mask_folder, int2str(i), ')_mascara_nucleo.BMP');
+    mask_file = strcat(mask_folder, int2str(i), ')_mascara_juncao.BMP');
     MASK = imread(mask_file);
 %     figure;
 %     imshow(MASK);
