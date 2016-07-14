@@ -12,7 +12,7 @@ clc;
 for l = 1:45
     
     img_path = 'imagens/isbi2014_test/isbi2014_train/orig/isbi_train_im0';
-    mkdir(strcat('clups/mask-',int2str(l)));
+    mkdir(strcat('seg/im-',int2str(l)));
     
     if l < 10
         I = imread(strcat(img_path, '0',int2str(l), '.png'));
@@ -30,9 +30,13 @@ for l = 1:45
 
     L = bwlabel(BW);
     C = max(max(L));
-    
+    j = 1; 
     for i = 1:C
         M1 = L == i;
-        imwrite(M1, strcat('clups/mask-',int2str(l),'/clup_mask-', int2str(i), '.png'))
+        if nnz(M1) > 3000
+         %M1 = bwfill(M1, 'holes');
+         imwrite(M1, strcat('seg/im-',int2str(l),'/cell-', int2str(j), '.png'))
+         j= j+ 1;
+        end
     end
 end
