@@ -2,13 +2,13 @@ close all;
 clear all;
 clc;
 
-for u=1:45
+for u=9:9
     
     img_path = strcat('imagens/isbi2014_test/isbi2014_train/orig/isbi_train_im0',sprintf('%02d',u),'.png');
     nucleo_path = strcat('nucleos/isbi_train_im0',int2str(u),'.png');
     clups = length(dir(strcat('clups/mask-', int2str(u))))- 2;
     
-    mkdir(strcat('cyto/im-',int2str(u)));
+    %mkdir(strcat('cyto/im-',int2str(u)));
     
     nucleo = imread(nucleo_path);
     
@@ -43,6 +43,8 @@ for u=1:45
         BD2 = edge(CH,'roberts');
         BD3 = BD1 | BD2;
         
+        imwrite(BD3, 'contorno1.png')
+        
         
         B1 = bwboundaries(BW1);
         B1 = B1{1};
@@ -54,6 +56,8 @@ for u=1:45
             dist1 = sqrt((B2(:,1)-B1(i,1)).^2 + (B2(:,2) - B1(i,2)).^2);
             dist(i) = min(dist1);
         end
+        
+        figure, plot(dist)
         
         size_centroids = size(centroids);
         num_nucleo = size_centroids(1);
@@ -90,7 +94,8 @@ for u=1:45
             BW1 = y;
             
         end
-        % figure, imshow(y);
+        figure, imshow(y);
+        imwrite(y,'segmented1.png');
         
         BD4 = edge(BW1,'roberts');
         
@@ -105,7 +110,7 @@ for u=1:45
             BW4 = bwmorph(BW4, 'majority');
             BW5 = bwareaopen(BW4, 100);
             if nnz(BW5) < 131072
-                imwrite(BW5, strcat('cyto/im-',int2str(u),'/cell-', int2str(count), '.png'))
+                %imwrite(BW5, strcat('cyto/im-',int2str(u),'/cell-', int2str(count), '.png'))
                 count = count+1;
             end
         end

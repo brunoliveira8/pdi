@@ -1,7 +1,7 @@
 %Cyto Dice
 
 path_gt = 'imagens/isbi2014_test/isbi2014_train/gt/Cyto/im';
-path_seg = 'cyto2/im-';
+path_seg = 'seg/im-';
 cell_aux = [];
 for i=1:45
     n_im = length(dir(strcat(path_gt,int2str(i))))-2;
